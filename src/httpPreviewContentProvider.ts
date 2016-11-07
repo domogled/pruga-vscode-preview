@@ -20,6 +20,6 @@ export class HttpPreviewContentProvider implements vscode.TextDocumentContentPro
 			border:none;
 			outline:none;
 		}
-	</style></head><body>medvěd<iframe src="${uri}" width="100%" height="100%" frameBorder="0"></iframe><div class="svgbg"></div></body></html>`;
+	</style></head><body><iframe src="${uri}" width="100%" height="100%" frameBorder="0"></iframe><div class="svgbg"></div></body></html>`;
     }
 }

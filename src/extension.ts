@@ -3,7 +3,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import * as path from 'path';
-import {HttpPreviewContentProvider} from './httPreviewContentProvider'
+import {HttpPreviewContentProvider} from './httpPreviewContentProvider'
 
 let config = vscode.workspace.getConfiguration('pruga')
 const SHOW_INFORMATION_MESSAGE = config["showInformationMessage"] || false
@@ -27,19 +27,19 @@ export function activate(context: vscode.ExtensionContext) {
 
         const rootPath = vscode.workspace.rootPath || ''
 
-        /*let success = await*/ vscode.commands.executeCommand('vscode.previewHtml', `http://localhost/${path.basename(rootPath)}`, vscode.ViewColumn.Two)
+        /*let success = await*/ vscode.commands.executeCommand('vscode.previewHtml', `http://localhost/${path.basename(rootPath)}/index.html`, vscode.ViewColumn.Two)
         // vscode.commands.executeCommand('vscode.previewHtml', previewUri, vscode.ViewColumn.Two)
             .then(
                 success => {
-                    console.log(`Пруга: web will be preview: ${success}`)
+                    console.log(`Пруга preview: web will be preview: ${success}`)
                     if(SHOW_INFORMATION_MESSAGE) {
-                        vscode.window.showInformationMessage(`Пруга: web will be preview: ${success}`);
+                        vscode.window.showInformationMessage(`Пруга preview: web will be preview: ${success}`);
                     }
                     
                 },
                 // then error
                     err => {
-                        vscode.window.showErrorMessage(`Пруга:ERROR web will be not preview: ${err}`)
+                        vscode.window.showErrorMessage(`Пруга preview: ERROR web will be not preview: ${err}`)
                     }
                 )
         
