@@ -3,9 +3,10 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import * as path from 'path';
-import {LiveServerContentProvider} from './liveServerContentProvider'
+import {HttpPreviewContentProvider} from './httPreviewContentProvider'
 
 let config = vscode.workspace.getConfiguration('pruga')
+const SHOW_INFORMATION_MESSAGE = config["showInformationMessage"] || false
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -15,7 +16,7 @@ export function activate(context: vscode.ExtensionContext) {
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "pruga-vscode-preview" is now active!');
     
-    let provider = new LiveServerContentProvider();
+    let provider = new HttpPreviewContentProvider();
     let registration = vscode.workspace.registerTextDocumentContentProvider("http", provider);
 
     // The command has been defined in the package.json file
@@ -29,12 +30,17 @@ export function activate(context: vscode.ExtensionContext) {
         /*let success = await*/ vscode.commands.executeCommand('vscode.previewHtml', `http://localhost/${path.basename(rootPath)}`, vscode.ViewColumn.Two)
         // vscode.commands.executeCommand('vscode.previewHtml', previewUri, vscode.ViewColumn.Two)
             .then(
-                s => {
-                    console.log('Пруга: web will be preview')
-                    vscode.window.showInformationMessage('Пруга: web will be preview');
+                success => {
+                    console.log(`Пруга: web will be preview: ${success}`)
+                    if(SHOW_INFORMATION_MESSAGE) {
+                        vscode.window.showInformationMessage(`Пруга: web will be preview: ${success}`);
+                    }
+                    
                 },
                 // then error
-                vscode.window.showErrorMessage
+                    err => {
+                        vscode.window.showErrorMessage(`Пруга:ERROR web will be not preview: ${err}`)
+                    }
                 )
         
     });

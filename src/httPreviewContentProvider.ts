@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-export class LiveServerContentProvider implements vscode.TextDocumentContentProvider{
+export class HttpPreviewContentProvider implements vscode.TextDocumentContentProvider{
     private _onDidChange = new vscode.EventEmitter<vscode.Uri>();
 
     public provideTextDocumentContent(uri:vscode.Uri):string{
