@@ -5,30 +5,33 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import {HttpPreviewContentProvider} from './httpPreviewContentProvider'
 
-let config = vscode.workspace.getConfiguration('pruga')
-const SHOW_INFORMATION_MESSAGE = config["showInformationMessage"] || false
-
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-
+    const rootPath = vscode.workspace.rootPath;
+    const config = require(path.join(rootPath, 'pruga.js'))
+    const SHOW_INFORMATION_MESSAGE = config["showInformationMessage"]
+    
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "pruga-vscode-preview" is now active!');
     
-    let provider = new HttpPreviewContentProvider();
-    let registration = vscode.workspace.registerTextDocumentContentProvider("http", provider);
+    const provider = new HttpPreviewContentProvider();
+    const registration = vscode.workspace.registerTextDocumentContentProvider("http", provider);
+
+
+    const {protocol, host, port, dir, file} = config.web
+    const previewUri = `${protocol}://${host}:${port}/${dir}/${file}`
 
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
-    let disposable = vscode.commands.registerCommand('pruga.preview', () => {
+    const disposable = vscode.commands.registerCommand('pruga.preview', () => {
         // The code you place here will be executed every time your command is executed
 
-        const rootPath = vscode.workspace.rootPath || ''
 
-        /*let success = await*/ vscode.commands.executeCommand('vscode.previewHtml', `http://localhost/${path.basename(rootPath)}/index.html`, vscode.ViewColumn.Two)
-        // vscode.commands.executeCommand('vscode.previewHtml', previewUri, vscode.ViewColumn.Two)
+
+        /*let success = await*/ vscode.commands.executeCommand('vscode.previewHtml', previewUri, vscode.ViewColumn.Two)
             .then(
                 success => {
                     console.log(`Пруга preview: web will be preview: ${success}`)
