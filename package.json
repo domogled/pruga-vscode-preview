@@ -14,6 +14,7 @@
        "workspaceContains:pruga.js"
     ],
     "main": "./out/src/extension",
+    "icon": "images/icon.png",
     "contributes": {
         "commands": [{
             "command": "pruga.preview",
