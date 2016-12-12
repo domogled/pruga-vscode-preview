@@ -15,11 +15,6 @@ export class HttpPreviewContentProvider implements vscode.TextDocumentContentPro
 			height:100%;
 			background-color: silver;
 		}
-		#khanvas {
-			display:block;
-			border:none;
-			outline:none;
-		}
 	</style></head><body><iframe src="${uri}" width="100%" height="100%" frameBorder="0"></iframe><div class="svgbg"></div></body></html>`;
     }
 }
